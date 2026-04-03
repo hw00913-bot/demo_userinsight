@@ -168,9 +168,23 @@ function initMdGeneration() {
         });
     });
 
+    // 监听弹窗打开事件，每次打开都读取最新标签树
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.target === modal && mutation.attributeName === 'class') {
+                if (modal.classList.contains('active')) {
+                    // 重置为默认 Tab 和内容
+                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelector('.md-tab[data-md-type="logic"]')?.classList.add('active');
+                    currentMdType = 'logic';
+                    content.textContent = generateLogicMd();
+                }
+            }
+        });
+    });
+    observer.observe(modal, { attributes: true });
+
     btn.addEventListener('click', () => {
-        // 默认生成标签逻辑提示词
-        content.textContent = generateLogicMd();
         modal.classList.add('active');
     });
 
