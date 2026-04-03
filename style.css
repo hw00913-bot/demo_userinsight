@@ -606,6 +606,48 @@ body {
     display: block;
 }
 
+/* MD 提示词预览弹窗 Tab */
+.md-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border-color);
+    background: white;
+}
+
+.md-tab {
+    padding: 14px 24px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.md-tab:hover {
+    color: var(--text-main);
+    background: #f8f9fb;
+}
+
+.md-tab.active {
+    color: var(--primary-color);
+}
+
+.md-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+}
+
 /* 分类树形结构 */
 .category-tree {
     max-height: 500px;

@@ -2614,11 +2614,19 @@
             <div class="modal-header">
                 <div class="modal-title">
                     <i class="fa-solid fa-file-lines"></i>
-                    <span>全量标签逻辑提示词预览</span>
+                    <span>全量标签提示词预览</span>
                 </div>
                 <button class="modal-close" id="closeMdModal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body" style="padding: 0; background: #f8f9fb;">
+                <div class="md-tabs" style="display: flex; border-bottom: 1px solid var(--border-color); background: white;">
+                    <button class="md-tab active" data-md-type="logic">
+                        <i class="fa-solid fa-tags"></i> 标签逻辑提示词
+                    </button>
+                    <button class="md-tab" data-md-type="tagging">
+                        <i class="fa-solid fa-check-circle"></i> 打标签提示词
+                    </button>
+                </div>
                 <div class="md-preview-container" style="padding: 24px;">
                     <pre id="mdContent" style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; line-height: 1.6; color: #333; overflow-x: auto; white-space: pre-wrap;"></pre>
                 </div>
