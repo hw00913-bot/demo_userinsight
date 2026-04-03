@@ -132,12 +132,12 @@ function initMdGeneration() {
         return md;
     }
 
-    // 生成打标签提示词
-    function generateTaggingMd() {
+    // 生成输出结果提示词
+    function generateOutputMd() {
         let md = "";
 
         // 系统提示词头
-        md += "# AI 通话标签打标系统提示词\n\n";
+        md += "# AI 通话标签输出结果提示词\n\n";
         md += "## 角色定义\n你是一名专业的客服通话分析师，负责根据通话内容为每一次通话打上准确的问题标签。你的判断将直接影响数据分析的准确性。\n\n";
         md += "## 标签分类体系\n\n";
 
@@ -218,7 +218,7 @@ function initMdGeneration() {
             currentMdType = tab.dataset.mdType;
             
             // 根据类型生成对应的 MD
-            content.textContent = currentMdType === 'logic' ? generateLogicMd() : generateTaggingMd();
+            content.textContent = currentMdType === 'logic' ? generateLogicMd() : generateOutputMd();
         });
     });
 
