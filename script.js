@@ -136,76 +136,19 @@ function initMdGeneration() {
     function generateOutputMd() {
         let md = "";
 
-        // 系统提示词头
+        // 标题
         md += "# AI 通话标签输出结果提示词\n\n";
-        md += "## 角色定义\n你是一名专业的客服通话分析师，负责根据通话内容为每一次通话打上准确的问题标签。你的判断将直接影响数据分析的准确性。\n\n";
-        md += "## 标签分类体系\n\n";
 
-        // 1. 常见问题分类
-        const faqModal = document.getElementById('common-issues-modal');
-        if (faqModal) {
-            md += "### 一、常见问题分类\n\n";
-            
-            // 获取一级分类
-            const level1Nodes = faqModal.querySelectorAll(':scope > .tree-node.tree-level-1');
-            level1Nodes.forEach(l1 => {
-                const l1Label = l1.querySelector(':scope > .tree-header > .tree-header-left > .tree-label')?.textContent?.replace(/\s*\(.*?\)$/, '') || '';
-                md += `#### ${l1Label}\n`;
-                
-                // 获取二级分类
-                const l2Nodes = l1.querySelectorAll(':scope > .tree-children > .tree-node.tree-level-2');
-                l2Nodes.forEach(l2 => {
-                    const l2Label = l2.querySelector(':scope > .tree-header > .tree-header-left > .tree-label')?.textContent?.replace(/\s*\(.*?\)$/, '') || '';
-                    md += `- **${l2Label}**\n`;
-                    
-                    // 获取三级分类（叶子节点）
-                    const l3Nodes = l2.querySelectorAll(':scope > .tree-children > .tree-node.tree-level-3');
-                    l3Nodes.forEach(l3 => {
-                        const l3Label = l3.querySelector(':scope > .tree-header > .tree-header-left > .tree-label')?.textContent?.replace(/\s*\(.*?\)$/, '') || '';
-                        const logic = l3.dataset.logicDesc || '';
-                        if (logic) {
-                            md += `  - ${l3Label}：${logic}\n`;
-                        } else {
-                            md += `  - ${l3Label}\n`;
-                        }
-                    });
-                });
-                md += '\n';
-            });
-        }
-
-        md += "---\n\n";
-
-        // 2. 客户抗拒点分类
-        const resModal = document.getElementById('resistance-points-modal');
-        if (resModal) {
-            md += "### 二、客户抗拒点分类\n\n";
-            
-            // 强抗拒点
-            md += "#### 强抗拒点（客户明确拒绝）\n";
-            const strongNodes = resModal.querySelectorAll('.tree-node');
-            strongNodes.forEach(node => {
-                const label = node.querySelector(':scope > .tree-header > .tree-header-left > .tree-label')?.textContent?.replace(/\s*\(.*?\)$/, '') || '';
-                const logic = node.dataset.logicDesc || '';
-                const hasChildren = node.querySelector(':scope > .tree-children');
-                
-                if (!hasChildren && label) {
-                    if (logic) {
-                        md += `- ${label}：${logic}\n`;
-                    } else {
-                        md += `- ${label}\n`;
-                    }
-                }
-            });
-        }
-
-        md += "\n---\n\n";
         md += "## 打标规则\n\n";
         md += "1. **逐句分析**：仔细阅读通话转写内容，识别客户提出的问题或表达的抗拒点。\n";
-        md += "2. **精准匹配**：根据上述标签分类体系，选择最匹配的标签。\n";
-        md += "3. **多标签支持**：一次通话可能涉及多个问题，请打上所有相关的标签。\n";
-        md += "4. **置信度判断**：如果无法确定，请选择「无法判断」并说明原因。\n\n";
-        md += "## 输出格式\n请按以下格式输出：\n```\n涉及常见问题：[标签1, 标签2, ...]\n涉及抗拒点：[标签1, 标签2, ...]\n```";
+        md += "2. **精准匹配**：根据标签分类体系，选择最匹配的标签。\n";
+        md += "3. **多标签支持**：一次通话可能涉及多个问题，请打上所有相关的标签。\n\n";
+
+        md += "## 输出格式（JSON）\n请直接输出 JSON 格式结果，包含以下字段：\n";
+        md += "- `callid`：通话唯一标识\n";
+        md += "- `涉及常见问题`：数组类型，命中的一级分类下的三级标签\n";
+        md += "- `涉及抗拒点`：数组类型，命中的一级分类下的二级标签\n\n";
+        md += "```json\n{\n  \"callid\": \"1234567890\",\n  \"涉及常见问题\": [\"全包落地含保险总价\", \"置换旧车现金补贴细节\"],\n  \"涉及抗拒点\": [\"忙于工作等私人事务\", \"落地价高出预期\"]\n}\n```";
 
         return md;
     }
